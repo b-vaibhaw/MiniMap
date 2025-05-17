@@ -27,14 +27,19 @@ from geopy.geocoders import Nominatim
 from geopy.exc import GeocoderTimedOut
 import requests
 from weather_model import
+import os
 
 import warnings
 warnings.filterwarnings("ignore", category=UserWarning)
 
-# API Keys
-ORS_API_KEY = '5b3ce3597851110001cf624803070ef73fab46049a4367a57979c831'
-TOMTOM_API_KEY = '0fM22Oq3R6sYGfNAJ660S18EqgiIMSjo'
-OPENWEATHER_API_KEY = '08208abad73b45982006305407922e0f'
+# Load API keys from environment variables
+ORS_API_KEY = os.getenv("ORS_API_KEY")
+TOMTOM_API_KEY = os.getenv("TOMTOM_API_KEY")
+OPENWEATHER_API_KEY = os.getenv("OPENWEATHER_API_KEY")
+
+# Check if keys are loaded
+if not all([ORS_API_KEY, TOMTOM_API_KEY, OPENWEATHER_API_KEY]):
+    raise ValueError("Missing one or more API keys in environment variables.")
 
 # Initialize OpenRouteService client
 client = openrouteservice.Client(key=ORS_API_KEY)
